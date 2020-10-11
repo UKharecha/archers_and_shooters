@@ -1,0 +1,25 @@
+{
+
+ "Archer": {
+   "Name": "",
+   "Age": 0,
+   "Sex": "",
+   "Health": 100,
+   "KD_Ratio": 0,
+   "Weapon": "arrows",
+   "Ammunition": 100
+
+ },
+
+  "Shooter": {
+   "Name": "",
+   "Age" :0,
+   "Sex": "",
+   "Player_Type": "",
+   "Health": 100,
+   "KD_Ratio": 0,
+   "Weapon": "bullets",
+   "Ammunition": 50
+ } 
+
+}
