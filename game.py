@@ -4,8 +4,6 @@ user = {
     "Archer":
         {
             "Name": "",
-            "Age": 0,
-            "Sex": "",
             "Health": 100,
             "KD_Ratio": 0,
             "Weapon": "arrows",
@@ -16,8 +14,6 @@ user = {
     "Shooter":
         {
             "Name": "",
-            "Age": 0,
-            "Sex": "",
             "Player_Type": "",
             "Health": 100,
             "KD_Ratio": 0,
@@ -50,87 +46,114 @@ class Player:
         player_type = ["archer", "shooter"]
 
         player1_name = input(f"Who is Player 1?\n")
-        player1_age = int(input(f"Hi {player1_name}. How old are you?\n"))
-        player1_sex = input("Enter your gender in M/F\n")
 
         player2_name = input(f"Who is Player 2?\n")
-        player2_age = int(input(f"Hi {player2_name}. How old are you?\n"))
-        player2_sex = input("Enter your gender in M/F\n")
+
 
         randomize = random.choice(player_type)
 
         if randomize == "archer":
-            a = {"Name": player1_name, "Age": player1_age, "Sex": player1_sex}
+            a = {"Name": player1_name}
             self.archer.update(a)
             print(
                 f"""
                 Hi {self.archer["Name"]} you are the Archer.
                 You will start with {self.archer['Ammunition']} {self.archer['Weapon']}.
-                You have {self.archer['Health']}% health. Play carefully!
+                You have {self.archer['Health']}% health. Good luck!
                 """)
-            s = {"Name": player2_name, "Age": player2_age, "Sex": player2_sex}
+            s = {"Name": player2_name}
             self.shooter.update(s)
             print(
                 f"""
                 Hi {self.shooter["Name"]} you are the Shooter.
                 You will start with {self.shooter['Ammunition']} {self.shooter['Weapon']}.
-                You have {self.shooter['Health']}% health. Play carefully!
+                You have {self.shooter['Health']}% health. Good luck!
                 """)
 
         if randomize == "shooter":
-            s = {"Name": player1_name, "Age": player1_age, "Sex": player1_sex}
+            s = {"Name": player1_name}
             self.shooter.update(s)
             print(
                 f"""
                             Hi {self.shooter["Name"]} you are the Shooter.
                             You will start with {self.shooter['Ammunition']} {self.shooter['Weapon']}.
-                            You have {self.shooter['Health']}% health. Play carefully!
+                            You have {self.shooter['Health']}% health. Good luck!
                             """)
 
-            a = {"Name": player2_name, "Age": player2_age, "Sex": player2_sex}
+            a = {"Name": player2_name}
             self.archer.update(a)
             print(
                 f"""
                             Hi {self.archer["Name"]} you are the Archer.
                             You will start with {self.archer['Ammunition']} {self.archer['Weapon']}.
-                            You have {self.archer['Health']}% health. Play carefully!
+                            You have {self.archer['Health']}% health. Good luck!
                             """)
 
 
 def fight(archer, shooter):
     while True:
-        archer_turn = str(input(f"{archer['Name']} do you want to attack with {archer['Weapon']}\n"))
-        if archer_turn in ("y", "Y"):
-            fire = int(input(f"How many {archer['Weapon']} do you want to fire at {shooter['Name']}\n"))
-            if fire > 5:
-                print(f"Please use less than 5 {archer['Weapon']} at a time.")
-                continue
-            if fire <= 5:
-                damage = fire * 2
-                update_health = {"Health": shooter["Health"] - damage}
-                shooter.update(update_health)
-                print(f"Shooting {fire} {archer['Weapon']} at {shooter['Name']}")
+        if archer["Health"] <= 0 or archer["Ammunition"] <= 0:
+            print(
+                f"""
+                {archer['Name']} unfortunately you loose with {archer["Health"]}% health and {archer["Ammunition"]} arrows.
+                {shooter['Name']} won with {shooter['Health']}% health and {shooter["Ammunition"]} bullets!
 
-        shooter_turn = str(input(f"{shooter['Name']} do you want to attack with {shooter['Weapon']}\n"))
-        if shooter_turn in ("y", "Y"):
-            fire = int(input(f"How many {shooter['Weapon']} do you want to fire at {archer['Name']}\n"))
-            if fire > 5:
-                print(f"Please use less than 5 {shooter['Weapon']} at a time.")
-                continue
-            if fire <= 50:
-                damage = fire
-                update_health = {"Health": archer["Health"] - damage}
-                archer.update(update_health)
-                print(f"Shooting {fire} {shooter['Weapon']} at {archer['Name']}")
+                """)
+            break
+        elif shooter["Health"] <= 0 or shooter["Ammunition"] <= 0:
+            print(
+                f"""
+                {shooter['Name']} unfortunately you loose with {shooter["Health"]}% health and {shooter["Ammunition"]} bullets.
+                {archer['Name']} won with {archer['Health']}% health and {archer["Ammunition"]} arrows!
+                
+                """)
+            break
 
-        if archer["Health"] == 0:
-            print(f"{archer['Name']} unfortunately you loose.")
-            print(f"{shooter['Name']} won with shooter['Health']% health! ")
-            break
-        if shooter["Health"] == 0:
-            print(f"{shooter['Name']} unfortunately you loose.")
-            print(f"{archer['Name']} won with shooter['Health']% health! ")
-            break
+        else:
+
+            num_arrows_fire = random.randint(1, 10)
+            archer_turn = str(input(
+                f"""
+                {archer['Name']}, The Computer chose to attack with {num_arrows_fire} {archer['Weapon']} at {shooter['Name']}.
+                Do you want to shoot? Type Y/N.\n
+
+                """))
+            if archer_turn in ("y", "Y"):
+                damage_by_archer = num_arrows_fire * 2
+                update_ammo_archer = {"Ammuntion":archer["Ammunition"] - num_arrows_fire}
+                update_health_shooter = {"Health":shooter["Health"] - damage_by_archer}
+                archer.update(update_ammo_archer)
+                shooter.update(update_health_shooter)
+                print(
+                    f"""
+                    Shot {num_arrows_fire} {archer['Weapon']} at {shooter['Name']}
+                    You have {archer["Ammuntion"]} arrows left with {archer["Health"]}% health.
+                    {shooter['Name']} has {shooter['Health']}% health left."
+
+                    """)
+
+            num_bullets_fire = random.randint(1, 10)
+            shooter_turn = str(input(
+                f"""
+                {shooter['Name']}, The Computer chose to attack with {num_bullets_fire} {shooter['Weapon']} at {archer['Name']}.
+                Do you want to shoot? Type Y/N.\n 
+
+                 """))
+            if shooter_turn in ("y", "Y"):
+                damage_by_shooter = num_bullets_fire 
+                update_ammo_shooter = {"Ammunition":shooter["Ammunition"] - num_bullets_fire}
+                update_health_archer = {"Health":archer["Health"] - damage_by_shooter}
+                shooter.update(update_ammo_shooter)
+                archer.update(update_health_archer)
+                print(
+                    f"""
+                    Shot {num_bullets_fire} {shooter['Weapon']} at {archer['Name']}
+                    You have {shooter["Ammunition"]} bullets left with {shooter["Health"]}% health.
+                    {archer['Name']} has {archer['Health']}% health left."
+
+                    """)
+
+        
 
 
 player1 = Player()
