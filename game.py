@@ -191,7 +191,7 @@ class ArchersAndShooters:
                 if shooter["Ammunition"] > num_bullets_fire and shooter["Health"] > 0:
                     shooter_turn = str(input(
                         f"""
-                        {archer['Name']}, The Computer chose to attack with {num_bullets_fire} {shooter['Weapon']} at {archer['Name']}.
+                        {shooter['Name']}, The Computer chose to attack with {num_bullets_fire} {shooter['Weapon']} at {archer['Name']}.
                         Do you want to shoot? Type Y/N.\n
 
                         """))
