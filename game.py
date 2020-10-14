@@ -1,4 +1,5 @@
 import random
+from playsound import playsound
 
 Archer = {
     "Name": "",
@@ -151,6 +152,8 @@ class ArchersAndShooters:
 
                         """))
                     if archer_turn in ("y", "Y"):
+                        for i in range(num_arrows_fire):
+                            playsound("Arrow.mp3")
                         update_ammo_archer = {"Ammunition": archer["Ammunition"] - num_arrows_fire}
                         archer.update(update_ammo_archer)
                         if shooter["Health"] > 0:
@@ -196,6 +199,8 @@ class ArchersAndShooters:
 
                         """))
                     if shooter_turn in ("y", "Y"):
+                        for i in range(num_bullets_fire):
+                            playsound("Bullet.mp3")
                         update_ammo_shooter = {"Ammunition": shooter["Ammunition"] - num_bullets_fire}
                         shooter.update(update_ammo_shooter)
                         if archer["Health"] > 0:
